@@ -12,7 +12,7 @@ import static com.codeborne.selenide.Selenide.*;
 public class CardDeliveryTest {
 
     @Test
-    void shouldTest() {
+    void shouldFillValid() {
         open("http://localhost:9999/");
         $("[data-test-id='city'] input").setValue("Уфа");
         $("[data-test-id='date'] input").setValue("22.02.2023");
