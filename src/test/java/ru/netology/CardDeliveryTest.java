@@ -11,10 +11,11 @@ import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.*;
 
 
-
 public class CardDeliveryTest {
 
-    String testDate = LocalDate.now().plusDays(3).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+    public String generateDate(long addDays, String pattern) {
+        return LocalDate.now().plusDays(addDays).format(DateTimeFormatter.ofPattern(pattern));
+    }
 
     @Test
     void shouldFillValid() {
@@ -22,11 +23,11 @@ public class CardDeliveryTest {
         $("[data-test-id='city'] input").setValue("Уфа");
         $("[data-test-id='date'] input").doubleClick();
         $("[data-test-id='date'] input").sendKeys(Keys.BACK_SPACE);
-        $("[data-test-id='date'] input").setValue(testDate);
+        $("[data-test-id='date'] input").setValue(generateDate(3, "dd.MM.yyyy"));
         $("[data-test-id='name'] input").setValue("Иванов Иван");
         $("[data-test-id='phone'] input").setValue("+79099654321");
         $("[data-test-id='agreement']").click();
         $x("//span[text()='Забронировать']").click();
-        $("[data-test-id=notification]").should(appear, Duration.ofSeconds(15));
+        $(".notification__content").shouldBe(visible.text("Встреча успешно забронирована на " + generateDate(3, "dd.MM.yyyy")), Duration.ofSeconds(15)).shouldBe(visible);
     }
 }
